@@ -151,7 +151,7 @@ jobs:
         run: |
           echo "🚀 Testing container runtime behavior..."
           IMAGE_TAG=${{ steps.meta.outputs.version }}
-          CONTAINER_NAME=test-container-$${RANDOM}
+          CONTAINER_NAME="test-container-${RANDOM}"
           
           # Run container in background
           docker run -d --name $CONTAINER_NAME -p 8080:8080 \
