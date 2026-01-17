@@ -57,10 +57,13 @@ jobs:
       - name: SCA - OWASP Dependency Check
         run: |
           echo "🔒 Scanning dependencies for known vulnerabilities..."
-          mvn org.owasp:dependency-check-maven:check -Dformat=SARIF -DoutputDirectory=target
+          mvn org.owasp:dependency-check-maven:check \
+            -Dformat=SARIF \
+            -DoutputDirectory=target \
+            -DoutputName=dependency-check-report
 
       - name: SCA - Upload Dependency Check SARIF
-        if: always()
+        if: always() && hashFiles('target/dependency-check-report.sarif') != ''
         uses: github/codeql-action/upload-sarif@v3
         with:
           sarif_file: target/dependency-check-report.sarif
@@ -124,14 +127,14 @@ jobs:
 
       - name: Upload Trivy scan results to GitHub Security
         uses: github/codeql-action/upload-sarif@v3
-        if: always()
+        if: always() && hashFiles('trivy-results.sarif') != ''
         with:
           sarif_file: 'trivy-results.sarif'
         continue-on-error: true
 
       - name: Upload Trivy image scan results to GitHub Security
         uses: github/codeql-action/upload-sarif@v3
-        if: always()
+        if: always() && hashFiles('trivy-image-results.sarif') != ''
         with:
           sarif_file: 'trivy-image-results.sarif'
         continue-on-error: true
