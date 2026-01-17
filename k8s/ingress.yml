@@ -1,0 +1,25 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: basic-springboot-app-ingress
+  labels:
+    app: basic-springboot-app
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+spec:
+  rules:
+  - host: basic-springboot-app.example.com  # Replace with your domain
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: basic-springboot-app
+            port:
+              number: 80
+  tls:
+  - hosts:
+    - basic-springboot-app.example.com  # Replace with your domain
+    secretName: basic-springboot-app-tls
