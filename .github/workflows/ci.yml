@@ -136,6 +136,7 @@ jobs:
         if: always() && hashFiles('trivy-results.sarif') != ''
         with:
           sarif_file: 'trivy-results.sarif'
+          category: trivy-fs
         continue-on-error: true
 
       - name: Upload Trivy image scan results to GitHub Security
@@ -143,6 +144,7 @@ jobs:
         if: always() && hashFiles('trivy-image-results.sarif') != ''
         with:
           sarif_file: 'trivy-image-results.sarif'
+          category: trivy-image
         continue-on-error: true
 
       - name: Runtime Test - Container smoke test
