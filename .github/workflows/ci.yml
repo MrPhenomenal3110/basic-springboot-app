@@ -20,6 +20,8 @@ jobs:
   ci:
     name: Continuous Integration
     runs-on: ubuntu-latest
+    env:
+      NVD_API_KEY: ${{ secrets.NVD_API_KEY }}
     
     steps:
       - name: Checkout code
@@ -55,12 +57,14 @@ jobs:
           upload: true
 
       - name: SCA - OWASP Dependency Check
+        if: env.NVD_API_KEY != ''
         run: |
           echo "🔒 Scanning dependencies for known vulnerabilities..."
           mvn org.owasp:dependency-check-maven:check \
             -Dformat=SARIF \
             -DoutputDirectory=target \
-            -DoutputName=dependency-check-report
+            -DoutputName=dependency-check-report \
+            -DnvdApiKey=${{ env.NVD_API_KEY }}
 
       - name: SCA - Upload Dependency Check SARIF
         if: always() && hashFiles('target/dependency-check-report.sarif') != ''
