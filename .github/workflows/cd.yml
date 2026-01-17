@@ -12,7 +12,7 @@ on:
     types:
       - completed
     branches:
-      - master
+      - main
 
 env:
   IMAGE_NAME: ${{ vars.IMAGE_NAME }}

@@ -83,7 +83,7 @@ curl http://localhost:8080/greetings
 
 ```mermaid
 flowchart LR
-  devPush[DeveloperPushToMaster] --> ci[GitHubActions_CI]
+  devPush[DeveloperPushToMain] --> ci[GitHubActions_CI]
   ci --> lint[Checkstyle]
   ci --> sast[CodeQL_SAST]
   ci --> sca[DependencyCheck_SCA]
@@ -100,7 +100,7 @@ flowchart LR
 
 ## CI Pipeline Stages (.github/workflows/ci.yml)
 
-The CI pipeline runs on every push to `master` branch and can also be triggered manually via `workflow_dispatch`.
+The CI pipeline runs on every push to `main` branch and can also be triggered manually via `workflow_dispatch`.
 
 ### Stage-by-Stage Breakdown
 
